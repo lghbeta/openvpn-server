@@ -1,3 +1,7 @@
+networks:
+  vpnnet:
+    driver: bridge
+
 services:
   openvpn:
     container_name: openvpn
@@ -26,7 +30,8 @@ services:
     cap_add:
       - NET_ADMIN
     restart: unless-stopped
-    network_mode: bridge
+    networks:
+      - vpnnet
     depends_on:
       - "openvpn-ui"
 
@@ -46,4 +51,5 @@ services:
       - ./pki:/usr/share/easy-rsa/pki
       - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
-    network_mode: bridge
+    networks:
+      - vpnnet
